@@ -14,7 +14,7 @@ function Login() {
         setError('');
         try {
             // ✅ Updated to live Render URL
-            const res = await axios.post('https://techstore-api-cp6o.onrender.com/api/login', { email, password });
+            const res = await axios.post('https://techstore-backend-yuqh.onrender.com/api/login', { email, password });
 
             //Email id pass already present in backend after signup ,,during login backened server matches the email and pass and provides a pass (token) to acccess data 
 
