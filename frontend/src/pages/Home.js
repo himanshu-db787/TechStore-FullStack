@@ -13,7 +13,7 @@ function Home() {
     const categories = ["All", "Phone", "Laptop", "Audio", "Watch"];
 
     useEffect(() => { 
-        axios.get('https://techstore-api-cp6o.onrender.com/api/products') 
+        axios.get('https://techstore-backend-yuqh.onrender.com/api/products') 
             .then(res => setProducts(res.data))
             .catch(err => console.log(err));
     }, []);
