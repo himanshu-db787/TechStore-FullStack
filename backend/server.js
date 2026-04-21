@@ -24,7 +24,7 @@ const Product = mongoose.model('Product', new mongoose.Schema({
     name: String,
     price: Number,
     image: String,
-    category: { type: String, default: "Tech" }, // Matches the new Frontend category
+    category: { type: String, default: "Tech" }, 
     stock: { type: Number, default: 10 } 
 }));
 
@@ -116,9 +116,9 @@ app.post('/api/create-checkout-session', async (req, res) => {
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
-            // ✅ UPDATED: Points to your probable Vercel URL
-            success_url: `https://techstore-frontend-himanshu.vercel.app/dashboard?success=true`,
-            cancel_url: `https://techstore-frontend-himanshu.vercel.app/cart?canceled=true`,
+            // ✅ RECTIFIED: Corrected URL to match your live Vercel deployment
+            success_url: `https://tech-store-full-stack.vercel.app/dashboard?success=true`,
+            cancel_url: `https://tech-store-full-stack.vercel.app/cart?canceled=true`,
         });
         res.json({ url: session.url });
     } catch (err) { res.status(500).json({ error: err.message }); }
