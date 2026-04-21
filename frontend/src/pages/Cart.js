@@ -76,7 +76,7 @@ function Cart() {
                 address: address 
             };
 
-            const response = await axios.post('https://techstore-api-cp6o.onrender.com/api/create-checkout-session', orderData);
+            const response = await axios.post('https://techstore-backend-yuqh.onrender.com/api/create-checkout-session', orderData);
             setCart([]);
             localStorage.removeItem('cart');
             window.location.href = response.data.url; 

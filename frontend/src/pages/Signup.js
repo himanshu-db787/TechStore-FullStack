@@ -15,7 +15,7 @@ function Signup() {
         setError('');
         try {
             // ✅ Updated to live Render URL
-            await axios.post('https://techstore-api-cp6o.onrender.com/api/register', { name, email, password });
+            await axios.post('https://techstore-backend-yuqh.onrender.com/api/register', { name, email, password });
             alert("Registration Successful! Please Login.");
             navigate('/login');
         } catch (err) {

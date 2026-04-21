@@ -11,7 +11,7 @@ function ProductDetails() {
 
     useEffect(() => {
         // Fetch specific product using the backend route
-        axios.get(`https://techstore-api-cp6o.onrender.com/api/products/${id}`)
+        axios.get(`https://techstore-backend-yuqh.onrender.com/api/products/${id}`)
             .then(res => setProduct(res.data))
             .catch(err => console.log("Error:", err));
     }, [id]);
