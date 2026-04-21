@@ -1,0 +1,118 @@
+/* Matching the Login Page Wrapper */
+.cart-page-wrapper {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 40px 20px;
+}
+
+/* The Cart Card (Same as form-container) */
+.cart-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 800px; /* Wider than login for the items */
+}
+
+.cart-container h2 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    font-weight: 700;
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 15px;
+}
+
+/* Individual Cart Item */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 20px 0;
+}
+
+.cart-item h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #2c3e50;
+    flex: 1;
+    margin-left: 20px;
+}
+
+.cart-item p {
+    font-weight: bold;
+    color: #27ae60;
+    font-size: 1.1rem;
+    margin-right: 20px;
+}
+
+/* Remove Button */
+.remove-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.remove-btn:hover {
+    background: #c0392b;
+}
+
+/* Address Box - Styled like Login Inputs */
+.address-textarea {
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 16px;
+    min-height: 100px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s;
+    font-family: inherit;
+}
+
+.address-textarea:focus {
+    border-color: #3498db;
+}
+
+/* Checkout Button (Stripe Blue) */
+.checkout-btn {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: #6772E5; /* Stripe's official color */
+    color: white;
+    font-size: 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(103, 114, 229, 0.3);
+}
+
+.checkout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(103, 114, 229, 0.4);
+}
+
+.total-display {
+    text-align: right;
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #2c3e50;
+    font-weight: 800;
+}

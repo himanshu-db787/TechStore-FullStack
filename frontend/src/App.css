@@ -1,0 +1,57 @@
+/* Import a modern, premium font from Google */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* Global Color Palette */
+:root {
+  --primary-color: #6772E5; /* Stripe Purple */
+  --secondary-color: #2c3e50; /* Dark Navy */
+  --accent-color: #3498db; /* Bright Blue */
+  --background-color: #f4f7f6;
+  --text-color: #2c3e50;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Make all buttons animated and premium */
+button, a.btn {
+  transition: all 0.3s ease !important;
+}
+
+button:hover, a.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15) !important;
+  opacity: 0.95;
+}
+
+/* Product Card Hover Effects */
+.product-card {
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.1) !important;
+}
+
+/* Smooth Input Fields */
+input, textarea, select {
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3) !important;
+  outline: none;
+}

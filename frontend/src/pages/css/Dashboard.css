@@ -1,0 +1,149 @@
+/* Matching the TechStore Gradient Wrapper */
+.dashboard-page-wrapper {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Main Dashboard Card */
+.dashboard-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Header/Profile Section */
+.user-profile-header {
+    background: #2c3e50;
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.user-profile-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.user-profile-header p {
+    margin: 10px 0 0 0;
+    font-size: 16px;
+    color: #bdc3c7;
+}
+
+/* Order History Section */
+.order-history-title {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Empty State */
+.empty-orders {
+    background: #f8fafc;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    border: 2px dashed #cbd5e0;
+}
+
+/* Individual Order Card */
+.order-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-left: 6px solid #2ecc71;
+    margin-bottom: 20px;
+    transition: transform 0.2s;
+}
+
+.order-card:hover {
+    transform: translateX(5px);
+}
+
+/* Order Top Row (ID & Status) */
+.order-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #edf2f7;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.order-id-info p {
+    margin: 0;
+    color: #718096;
+    font-size: 13px;
+}
+
+/* Status Badge Container */
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Items Grid */
+.order-items-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.item-thumbnail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f1f5f9;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.item-thumbnail img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.item-thumbnail span {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+/* Total Price Text */
+.order-total {
+    margin: 0;
+    text-align: right;
+    color: #e74c3c;
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.address-line {
+    margin: 0 0 15px 0;
+    color: #4a5568;
+    font-size: 14px;
+    background: #fffaf0;
+    padding: 10px;
+    border-radius: 8px;
+}

@@ -1,0 +1,94 @@
+/* Full screen centering with the TechStore Gradient */
+.signup-page-wrapper {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* The Signup Card (Same as Login container) */
+.form-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.form-container h2 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+/* Error message styling */
+.error-message {
+    background: #fff5f5;
+    color: #e53e3e;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    border: 1px solid #feb2b2;
+}
+
+/* Inputs styling */
+.form-container input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box; /* Crucial: keeps inputs inside the card */
+}
+
+.form-container input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+}
+
+/* The Sign Up Button */
+.form-container button {
+    width: 100%;
+    padding: 15px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin-top: 10px;
+}
+
+.form-container button:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+/* Link at bottom */
+.form-container p {
+    margin-top: 20px;
+    color: #718096;
+    font-size: 14px;
+}
+
+.form-container a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.form-container a:hover {
+    text-decoration: underline;
+}
