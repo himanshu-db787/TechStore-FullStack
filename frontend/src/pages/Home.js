@@ -27,7 +27,7 @@ function Home() {
         <div>
             <div style={{ background: 'linear-gradient(135deg, #2c3e50 0%, #3498db 100%)', color: 'white', padding: '60px 20px', textAlign: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
                 <h1 style={{ fontSize: '3rem', margin: '0 0 10px 0', fontWeight: '700' }}>Welcome to TechStore</h1>
-                <p style={{ fontSize: '1.2rem', margin: '0 0 30px 0', opacity: '0.9' }}>Discover the latest gadgets for CSE-9.</p>
+                <p style={{ fontSize: '1.2rem', margin: '0 0 30px 0', opacity: '0.9' }}>Discover the latest gadgets.</p>
                 
                 <input 
                     type="text" 
