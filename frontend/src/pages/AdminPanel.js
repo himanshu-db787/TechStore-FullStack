@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify'; // ✅ IMPORTED TOAST
 import './css/AdminPanel.css'; 
 
 function AdminPanel() {
@@ -11,17 +12,22 @@ function AdminPanel() {
     const navigate = useNavigate();
 
     const fetchProducts = () => {
-        axios.get('https://techstore-backend-yuqh.onrender.com/api/products').then(res => setProducts(res.data)).catch(err => console.log(err));
+        axios.get('https://techstore-backend-yuqh.onrender.com/api/products')
+            .then(res => setProducts(res.data))
+            .catch(err => console.log(err));
     };
 
     const fetchOrders = () => {
-        axios.get('https://techstore-backend-yuqh.onrender.com/api/admin/orders').then(res => setOrders(res.data)).catch(err => console.log(err));
+        axios.get('https://techstore-backend-yuqh.onrender.com/api/admin/orders')
+            .then(res => setOrders(res.data))
+            .catch(err => console.log(err));
     };
 
+    // 1. Initial Load & Auth Check
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user || !user.isAdmin) {
-            alert("⛔ Access Denied! Admins only.");
+            toast.error("⛔ Access Denied! Admins only."); // ✅ UPGRADED TO TOAST
             navigate('/');
             return;
         }
@@ -29,10 +35,24 @@ function AdminPanel() {
         fetchOrders();
     }, [navigate]);
 
+    // ✅ 2. ADDED SMART POLLING FOR AUTOMATIC STATUS UPDATES
+    useEffect(() => {
+        const hasPendingOrders = orders.some(o => o.status === 'Pending Payment');
+        // Only poll if we are looking at the orders tab AND there is a pending order
+        if (hasPendingOrders && view === 'orders') {
+            const interval = setInterval(() => {
+                fetchOrders(); // Silently grab fresh data from the backend
+            }, 3000); 
+            
+            // Cleanup the interval when the component closes or status changes
+            return () => clearInterval(interval);
+        }
+    }, [orders, view]);
+
     const handleAddProduct = async (e) => {
         e.preventDefault();
         await axios.post('https://techstore-backend-yuqh.onrender.com/api/products', newProduct);
-        alert("✅ Product Added!");
+        toast.success("✅ Product Added!"); // ✅ UPGRADED TO TOAST
         setNewProduct({ name: '', price: '', stock: '', image: '', category: 'Tech' });
         fetchProducts(); 
     };
@@ -40,6 +60,7 @@ function AdminPanel() {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure?")) return;
         await axios.delete(`https://techstore-backend-yuqh.onrender.com/api/products/${id}`);
+        toast.success("Product deleted successfully."); // ✅ UPGRADED TO TOAST
         fetchProducts(); 
     };
 
@@ -47,26 +68,31 @@ function AdminPanel() {
         const newStock = window.prompt(`Enter the new stock quantity:`, currentStock);
         if (newStock === null || newStock === "") return; 
         const stockNum = parseInt(newStock, 10);
-        if (isNaN(stockNum) || stockNum < 0) return alert("⚠️ Please enter a valid number.");
+        if (isNaN(stockNum) || stockNum < 0) return toast.warning("⚠️ Please enter a valid number."); // ✅ UPGRADED TO TOAST
         try {
             await axios.put(`https://techstore-backend-yuqh.onrender.com/api/products/${id}/stock`, { stock: stockNum });
+            toast.success("Stock updated successfully!"); // ✅ UPGRADED TO TOAST
             fetchProducts(); 
-        } catch (err) { alert("Failed to update stock."); }
+        } catch (err) { 
+            toast.error("Failed to update stock."); // ✅ UPGRADED TO TOAST
+        }
     };
 
     const handleStatusChange = async (orderId, newStatus) => {
         await axios.put(`https://techstore-backend-yuqh.onrender.com/api/orders/${orderId}/status`, { status: newStatus });
+        toast.success("Order status updated!"); // ✅ UPGRADED TO TOAST
         fetchOrders(); 
     };
 
-    // ✅ ADDED: Function to approve manual refund
     const handleApproveRefund = async (orderId) => {
         if (!window.confirm("Approve this refund? This will immediately return the money via Stripe.")) return;
         try {
             await axios.post(`https://techstore-backend-yuqh.onrender.com/api/admin/orders/${orderId}/approve-refund`);
-            alert("Refund Successful! Money has been returned.");
+            toast.success("Refund Successful! Money has been returned."); // ✅ UPGRADED TO TOAST
             fetchOrders(); 
-        } catch (err) { alert("Refund Failed. Check server logs."); }
+        } catch (err) { 
+            toast.error("Refund Failed. Check server logs."); // ✅ UPGRADED TO TOAST
+        }
     };
 
     return (
@@ -136,16 +162,15 @@ function AdminPanel() {
                                         style={{ background: order.status === 'Delivered' ? '#d4edda' : order.status === 'Shipped' ? '#cce5ff' : '#fff3cd' }}
                                     >
                                         <option value="Pending Payment">Pending Payment (Unpaid)</option>
+                                        <option value="Paid & Processing">Paid & Processing</option> {/* Added this state! */}
                                         <option value="Processing">Processing</option>
                                         <option value="Shipped">Shipped 🚚</option>
                                         <option value="Delivered">Delivered ✅</option>
-                                        {/* ✅ Added missing statuses for the dropdown */}
                                         <option value="Refund Requested">Refund Requested</option>
                                         <option value="Refunded ✅">Refunded ✅</option>
                                         <option value="Refunded - Stock Out">Refunded - Stock Out</option>
                                     </select>
                                     
-                                    {/* ✅ ADDED: Admin Approve Button */}
                                     {order.status === 'Refund Requested' && (
                                         <button 
                                             onClick={() => handleApproveRefund(order._id)} 
