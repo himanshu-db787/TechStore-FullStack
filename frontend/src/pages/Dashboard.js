@@ -9,6 +9,7 @@ function Dashboard() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    // 1. Initial Load & URL Parameter Check
     useEffect(() => {
         const loggedInUser = JSON.parse(localStorage.getItem('user'));
         if (!loggedInUser) {
@@ -23,7 +24,6 @@ function Dashboard() {
             navigate('/dashboard', { replace: true }); 
         }
 
-        // ✅ Standardized to yuqh
         axios.get(`https://techstore-backend-yuqh.onrender.com/api/orders/${loggedInUser.name}`)
             .then(res => {
                 const sortedOrders = res.data.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -33,11 +33,42 @@ function Dashboard() {
             
     }, [navigate, location.search]);
 
+    // ✅ ADDED: Smart Polling for Payment Verification
+    useEffect(() => {
+        // Check if any order is currently waiting for the webhook
+        const hasPendingOrders = orders.some(o => o.status === 'Pending Payment');
+        
+        if (hasPendingOrders && user) {
+            console.log("Checking for payment verification...");
+            const interval = setInterval(() => {
+                axios.get(`https://techstore-backend-yuqh.onrender.com/api/orders/${user.name}`)
+                    .then(res => {
+                        const sortedOrders = res.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+                        setOrders(sortedOrders); // Instantly updates UI when status changes to 'Paid & Processing'
+                    })
+                    .catch(err => console.error("Polling error:", err));
+            }, 3000); // Check every 3 seconds
+
+            // Cleanup the interval to prevent memory leaks
+            return () => clearInterval(interval);
+        }
+    }, [orders, user]); // Re-run whenever orders or user changes
+
     const getStatusStyle = (status) => {
         if (status === 'Delivered') return { background: '#d4edda', color: '#155724' };
         if (status === 'Shipped') return { background: '#cce5ff', color: '#004085' };
         if (status === 'Pending Payment') return { background: '#fdf2f2', color: '#e74c3c' }; 
+        if (status === 'Paid & Processing' || status === 'Processing') return { background: '#e1f5fe', color: '#0277bd' }; 
         return { background: '#fff3cd', color: '#856404' }; 
+    };
+
+    const handleRefundRequest = async (orderId) => {
+        if (!window.confirm("Are you sure you want to request a refund for this order?")) return;
+        try {
+            await axios.put(`https://techstore-backend-yuqh.onrender.com/api/orders/${orderId}/request-refund`);
+            alert("Refund request submitted! An admin will review it.");
+            window.location.reload(); 
+        } catch (err) { alert("Failed to send refund request."); }
     };
 
     if (!user) return null;
@@ -66,6 +97,7 @@ function Dashboard() {
                                     </div>
                                     <span className="status-badge" style={getStatusStyle(order.status)}>
                                         {order.status === 'Pending Payment' && '💳 '}
+                                        {order.status === 'Paid & Processing' && '✅ '}
                                         {order.status === 'Processing' && '⏳ '}
                                         {order.status === 'Shipped' && '🚚 '}
                                         {order.status === 'Delivered' && '✅ '}
@@ -82,6 +114,15 @@ function Dashboard() {
                                             <span>{item.quantity || 1}x {item.name}</span>  
                                         </div>
                                     ))}
+                                    
+                                    {order.status === 'Delivered' && (
+                                        <button 
+                                            onClick={() => handleRefundRequest(order._id)} 
+                                            style={{ marginTop: '15px', padding: '10px 15px', background: '#e67e22', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}
+                                        >
+                                            Request Refund ↩️
+                                        </button>
+                                    )}
                                 </div>
                                 <h3 className="order-total">Total Paid: ${order.totalPrice.toFixed(2)}</h3>
                             </div>

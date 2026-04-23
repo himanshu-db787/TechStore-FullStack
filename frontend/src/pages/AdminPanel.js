@@ -11,12 +11,10 @@ function AdminPanel() {
     const navigate = useNavigate();
 
     const fetchProducts = () => {
-        // ✅ Standardized to yuqh
         axios.get('https://techstore-backend-yuqh.onrender.com/api/products').then(res => setProducts(res.data)).catch(err => console.log(err));
     };
 
     const fetchOrders = () => {
-        // ✅ Standardized to yuqh
         axios.get('https://techstore-backend-yuqh.onrender.com/api/admin/orders').then(res => setOrders(res.data)).catch(err => console.log(err));
     };
 
@@ -33,7 +31,6 @@ function AdminPanel() {
 
     const handleAddProduct = async (e) => {
         e.preventDefault();
-        // ✅ Standardized to yuqh
         await axios.post('https://techstore-backend-yuqh.onrender.com/api/products', newProduct);
         alert("✅ Product Added!");
         setNewProduct({ name: '', price: '', stock: '', image: '', category: 'Tech' });
@@ -42,7 +39,6 @@ function AdminPanel() {
 
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure?")) return;
-        // ✅ Standardized to yuqh
         await axios.delete(`https://techstore-backend-yuqh.onrender.com/api/products/${id}`);
         fetchProducts(); 
     };
@@ -53,16 +49,24 @@ function AdminPanel() {
         const stockNum = parseInt(newStock, 10);
         if (isNaN(stockNum) || stockNum < 0) return alert("⚠️ Please enter a valid number.");
         try {
-            // ✅ Standardized to yuqh
             await axios.put(`https://techstore-backend-yuqh.onrender.com/api/products/${id}/stock`, { stock: stockNum });
             fetchProducts(); 
         } catch (err) { alert("Failed to update stock."); }
     };
 
     const handleStatusChange = async (orderId, newStatus) => {
-        // ✅ Standardized to yuqh
         await axios.put(`https://techstore-backend-yuqh.onrender.com/api/orders/${orderId}/status`, { status: newStatus });
         fetchOrders(); 
+    };
+
+    // ✅ ADDED: Function to approve manual refund
+    const handleApproveRefund = async (orderId) => {
+        if (!window.confirm("Approve this refund? This will immediately return the money via Stripe.")) return;
+        try {
+            await axios.post(`https://techstore-backend-yuqh.onrender.com/api/admin/orders/${orderId}/approve-refund`);
+            alert("Refund Successful! Money has been returned.");
+            fetchOrders(); 
+        } catch (err) { alert("Refund Failed. Check server logs."); }
     };
 
     return (
@@ -135,7 +139,21 @@ function AdminPanel() {
                                         <option value="Processing">Processing</option>
                                         <option value="Shipped">Shipped 🚚</option>
                                         <option value="Delivered">Delivered ✅</option>
+                                        {/* ✅ Added missing statuses for the dropdown */}
+                                        <option value="Refund Requested">Refund Requested</option>
+                                        <option value="Refunded ✅">Refunded ✅</option>
+                                        <option value="Refunded - Stock Out">Refunded - Stock Out</option>
                                     </select>
+                                    
+                                    {/* ✅ ADDED: Admin Approve Button */}
+                                    {order.status === 'Refund Requested' && (
+                                        <button 
+                                            onClick={() => handleApproveRefund(order._id)} 
+                                            style={{ marginLeft: '10px', background: '#27ae60', color: 'white', border: 'none', padding: '8px 12px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}
+                                        >
+                                            Approve Refund ✅
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         ))}
